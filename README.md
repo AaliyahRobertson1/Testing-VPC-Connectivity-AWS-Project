@@ -117,15 +117,17 @@ If the instance is configured with any other security group or port settings, up
 After successfully connecting to the public server, the next step is to ping the private server to test connectivity.
 
 💻 Attempt to Ping the Private Server
+
 Run the following command from the Public EC2 instance:
 
-ping <Private-EC2-IP>
-✅ Example Command:
-ping <Private-EC2-IP>
+ping (Private-EC2-IP)
 
+✅ Example Command:
+ping 10.0.1.119
 ![Ping Private EC2](assets/ping-private-EC2.png)
 
-⚠️If the Ping  Fails, Check These Settings:
+⚠️ If the Ping  Fails, Check These Settings:
+
 ✅ Check Private Route Table
 Verify that the private subnet is associated with the correct route table.
 
@@ -144,6 +146,7 @@ Rule #	Type	Protocol	Port Range	Source	Description
 2️⃣ Correct Private NACL Outbound Rules and make it the same
 
 3️⃣ If NACLs look fine, check the Private Security Group inbound rules.
+
 ✅ Ensure the following rule exists:
 
 Rule #	Type	Protocol	Port Range	Source	Description
@@ -154,7 +157,11 @@ Rule #	Type	Protocol	Port Range	Source	Description
 
 ![Success](assets/success.png)
 🔎 Summary of Fixes for Failed Ping Issues
+
 1️⃣ Ensure the Private Subnet is correctly set up.
+
 2️⃣ Verify the Private Route Table.
+
 3️⃣ Fix Private Network ACL Rules (Allow ICMP).
+
 4️⃣ Check Private Security Group Inbound Rules.
