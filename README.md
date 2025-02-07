@@ -62,10 +62,10 @@ To allow the public subnet to access the internet, an Internet Gateway (IGW) is 
 Security Groups are configured to control inbound and outbound traffic.
 
 - **Public Security Group – Inbound Rules**
- <img width="1667" alt="public-security-group*" src="https://github.com/user-attachments/assets/10f48bc5-3894-4cc1-a224-bd155c027742" />
+<img width="1660" alt="public security group inbound update" src="https://github.com/user-attachments/assets/b851d9af-74a5-4aec-8af3-6a7f79da1893" />
 
 - **Private Security Group – Inbound Rules**
-  ![Private Security Group Inbound](assets/private-security-inbound-update.png)
+![Private Security Group Inbound](assets/private-security-inbound-update.png)
 
 ---
 
@@ -74,7 +74,7 @@ Security Groups are configured to control inbound and outbound traffic.
 Network ACLs (Access Control Lists) are configured to provide an additional layer of security.
 
 - **Public Network ACL Rules**
-  <img width="1411" alt="Public-network-ACL" src="https://github.com/user-attachments/assets/f5a102d7-5179-4fe8-ae89-d55717db296c" />
+<img width="1411" alt="Public-network-ACL" src="https://github.com/user-attachments/assets/f5a102d7-5179-4fe8-ae89-d55717db296c" />
   
 - **Private Network ACL Rules**
 <img width="1446" alt="inbound-acl" src="https://github.com/user-attachments/assets/90072bf5-4422-4623-b57d-7dc91ba4e947" />
@@ -96,22 +96,24 @@ Two EC2 instances are launched:
 
 ---
 
-#📌 Step 7: Troubleshooting Public Server Connection
+## 📌 Step 7: Troubleshooting Public Server Connection
 If the public server fails to connect, the issue is likely with the Public Security Group settings or inbound rule misconfigurations.
 
 ✅ Check Public Security Group Inbound Rules
-The Public Security Group should allow SSH (port 22) traffic, and not HTTP in this case.
 
-100	SSH	TCP	22	Your IP (or 0.0.0.0/0 for testing)	Allows SSH access
+Ensure the Public Security Group allows SSH (port 22) and HTTP (port 80) traffic.
 
 ✅ Public Security Group - Inbound Rules Example:
-<img width="1680" alt="ssh" src="https://github.com/user-attachments/assets/f5019c06-682e-45cf-9188-e0cfe56bdb0c" />
+<img width="1660" alt="public security group inbound update" src="https://github.com/user-attachments/assets/b851d9af-74a5-4aec-8af3-6a7f79da1893" />
+✅ Ensure the Instance is Connected to the Public Security Group
+
+If the instance is configured with any other security group or port settings, update it to use the Public Security Group with the correct rules.
 
 ✅ Successful Public Linux Connection
 
 ![Public Linux Connection](assets/Public-linux-connection.png)
 
-📌 Step 8: Troubleshooting Private Server Connection (Failed Ping)
+## 📌 Step 8: Troubleshooting Private Server Connection (Failed Ping)
 After successfully connecting to the public server, the next step is to ping the private server to test connectivity.
 
 💻 Attempt to Ping the Private Server
@@ -123,7 +125,7 @@ ping <Private-EC2-IP>
 
 ![Ping Private EC2](assets/ping-private-EC2.png)
 
- If the Ping  Fails, Check These Settings:
+⚠️If the Ping  Fails, Check These Settings:
 ✅ Check Private Route Table
 Verify that the private subnet is associated with the correct route table.
 
@@ -137,9 +139,10 @@ The issue might be restrictive Network ACL (NACL) settings.
 
 Rule #	Type	Protocol	Port Range	Source	Description
 100	All ICMP - IPv4	ICMP	ALL	10.0.0.0/24	Allows ping traffic
+        
+![Private Network ACL Update](assets/private-network-ACL-update.png)
 2️⃣ Correct Private NACL Outbound Rules and make it the same
 
-![Private Network ACL Update](assets/private-network-ACL-update.png)
 3️⃣ If NACLs look fine, check the Private Security Group inbound rules.
 ✅ Ensure the following rule exists:
 
@@ -155,8 +158,3 @@ Rule #	Type	Protocol	Port Range	Source	Description
 2️⃣ Verify the Private Route Table.
 3️⃣ Fix Private Network ACL Rules (Allow ICMP).
 4️⃣ Check Private Security Group Inbound Rules.
-
-
-
-
-
